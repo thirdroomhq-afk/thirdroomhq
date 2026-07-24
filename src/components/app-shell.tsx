@@ -11,6 +11,7 @@ import {
   Plus,
   Sparkles,
   CircleX,
+  Bookmark,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CommandPalette } from "./command-palette";
@@ -21,6 +22,7 @@ import { markWelcomeSeen, shouldShowWelcome } from "@/lib/onboarding";
 const NAV = [
   { to: "/home" as const, label: "Home", icon: LayoutDashboard },
   { to: "/blankspace" as const, label: "Brain", icon: BrainCircuit },
+  { to: "/memory" as const, label: "Memory", icon: Bookmark },
   { to: "/work" as const, label: "Work", icon: FolderKanban },
   { to: "/partners" as const, label: "Partners", icon: Users },
   { to: "/ai" as const, label: "AI", icon: Bot },
