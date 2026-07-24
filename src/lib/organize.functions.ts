@@ -119,7 +119,7 @@ export const organizeCapture = createServerFn({ method: "POST" })
         file_urls: [],
         summary: parsed.summary,
         capture_type: parsed.type,
-        ai_payload: parsed as unknown as Record<string, unknown>,
+        ai_payload: parsed as unknown as never,
       })
       .select("id")
       .single();
