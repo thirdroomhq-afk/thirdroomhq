@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { BrainCircuit, Plus, Sparkles, Clock3, Bookmark, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { loadMemoryEntries, saveMemoryEntry, type MemoryEntry } from "@/lib/memory-store";
 
 export const Route = createFileRoute("/_authenticated/memory")({
   head: () => ({
@@ -13,7 +15,7 @@ export const Route = createFileRoute("/_authenticated/memory")({
   component: MemoryPage,
 });
 
-const MEMORY_ITEMS = [
+const DEFAULT_MEMORY_ITEMS = [
   {
     title: "Product direction",
     details: "Keep the workspace calm, simple, and action-oriented.",
@@ -32,6 +34,27 @@ const MEMORY_ITEMS = [
 ];
 
 function MemoryPage() {
+  const [items, setItems] = useState<MemoryEntry[]>([]);
+
+  useEffect(() => {
+    const stored = loadMemoryEntries();
+    const seeded = stored.length > 0 ? stored : DEFAULT_MEMORY_ITEMS.map((item) => ({
+      id: `${item.title}-${Math.random()}`,
+      createdAt: new Date().toISOString(),
+      ...item,
+    }));
+    setItems(seeded);
+  }, []);
+
+  function handleAddMemory() {
+    const entry = saveMemoryEntry({
+      title: "New memory",
+      details: "Added from the memory workspace",
+      type: "Note",
+    });
+    setItems((prev) => [entry, ...prev]);
+  }
+
   return (
     <div className="space-y-6">
       <header className="rounded-3xl border border-border bg-card p-6 shadow-card">
@@ -43,7 +66,7 @@ function MemoryPage() {
               Store preferences, people context, and important reminders so the workspace feels grounded and useful over time.
             </p>
           </div>
-          <Button className="gap-2">
+          <Button onClick={handleAddMemory} className="gap-2">
             <Plus className="h-4 w-4" /> Add memory
           </Button>
         </div>
@@ -56,8 +79,8 @@ function MemoryPage() {
             <h2 className="font-display text-2xl">Saved memories</h2>
           </div>
           <div className="mt-4 space-y-3">
-            {MEMORY_ITEMS.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-border bg-muted/60 p-4">
+            {items.map((item) => (
+              <div key={item.id} className="rounded-2xl border border-border bg-muted/60 p-4">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-medium text-foreground">{item.title}</h3>
                   <span className="rounded-full bg-stone-warm px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-charcoal">

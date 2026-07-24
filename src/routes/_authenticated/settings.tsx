@@ -1,6 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { Zap, Github, ExternalLink, KeyRound } from "lucide-react";
+import { Zap, Github, ExternalLink, KeyRound, LogOut, Trash2 } from "lucide-react";
+import { clearMemoryEntries } from "@/lib/memory-store";
+import { signOutDemo } from "@/lib/auth";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
@@ -14,6 +16,18 @@ export const Route = createFileRoute("/_authenticated/settings")({
 });
 
 function SettingsPage() {
+  const navigate = useNavigate();
+
+  function handleSignOut() {
+    signOutDemo();
+    navigate({ to: "/auth", replace: true });
+  }
+
+  function handleClearMemory() {
+    clearMemoryEntries();
+    window.location.reload();
+  }
+
   return (
     <div className="space-y-6">
       <header>
@@ -66,6 +80,21 @@ function SettingsPage() {
           Founder access is enforced by the <code className="rounded bg-muted px-1">allowed_users</code> allowlist in the database.
           Any Google account not on the list is signed out automatically.
         </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Button variant="outline" onClick={handleSignOut} className="gap-2">
+            <LogOut className="h-4 w-4" /> Sign out
+          </Button>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-border bg-card p-6 shadow-card">
+        <h2 className="font-display text-2xl">Data controls</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Reset the local memory store for this browser session when testing or resetting the workspace.
+        </p>
+        <Button variant="outline" onClick={handleClearMemory} className="mt-4 gap-2">
+          <Trash2 className="h-4 w-4" /> Clear memory
+        </Button>
       </section>
     </div>
   );
