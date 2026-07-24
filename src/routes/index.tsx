@@ -18,7 +18,7 @@ function Landing() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate({ to: "/dashboard", replace: true });
+    navigate({ to: "/home", replace: true });
   }, [navigate]);
 
   return (
@@ -44,7 +44,7 @@ function Landing() {
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <button
-                onClick={() => navigate({ to: "/dashboard", replace: true })}
+                onClick={() => navigate({ to: "/home", replace: true })}
                 className="group inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 hover:bg-primary/90"
               >
                 Enter HQ <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

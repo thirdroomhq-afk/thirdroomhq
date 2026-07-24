@@ -30,28 +30,11 @@ import { cn } from "@/lib/utils";
 import { CommandPalette } from "./command-palette";
 
 const NAV = [
-  { to: "/dashboard" as const, label: "Dashboard", icon: LayoutDashboard },
+  { to: "/home" as const, label: "Home", icon: LayoutDashboard },
   { to: "/blankspace" as const, label: "Brain", icon: BrainCircuit },
-  { to: "/knowledge" as const, label: "Knowledge", icon: LibraryBig },
-  { to: "/projects" as const, label: "Projects", icon: FolderKanban },
+  { to: "/work" as const, label: "Work", icon: FolderKanban },
   { to: "/partners" as const, label: "Partners", icon: Users },
   { to: "/ai" as const, label: "AI", icon: Bot },
-  { to: "/decisions" as const, label: "Decisions", icon: Gavel },
-  { to: "/documents" as const, label: "Documents", icon: FileText },
-  { to: "/products" as const, label: "Products", icon: Boxes },
-  { to: "/blueprints" as const, label: "Blueprints", icon: Compass },
-  { to: "/sales" as const, label: "Sales", icon: BadgeDollarSign },
-  { to: "/operations" as const, label: "Operations", icon: Workflow },
-  { to: "/people" as const, label: "People", icon: UserRound },
-  { to: "/finance" as const, label: "Finance", icon: Wallet },
-  { to: "/insights" as const, label: "Insights", icon: BarChart3 },
-  { to: "/automations" as const, label: "Automations", icon: Sparkles },
-  { to: "/governance" as const, label: "Governance", icon: ShieldCheck },
-  { to: "/clients" as const, label: "Clients", icon: BriefcaseBusiness },
-  { to: "/marketplace" as const, label: "Marketplace", icon: Store },
-  { to: "/academy" as const, label: "Academy", icon: GraduationCap },
-  { to: "/community" as const, label: "Community", icon: MessagesSquare },
-  { to: "/integrations" as const, label: "Integrations", icon: Plug },
   { to: "/settings" as const, label: "Settings", icon: Settings },
 ];
 

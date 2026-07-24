@@ -16,7 +16,7 @@ function AuthPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate({ to: "/dashboard", replace: true });
+    navigate({ to: "/home", replace: true });
   }, [navigate]);
 
   return null;
