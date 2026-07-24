@@ -1,37 +1,63 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
-  Sparkles,
+  BrainCircuit,
+  LibraryBig,
+  FolderKanban,
+  Bot,
+  Gavel,
   Users,
   Plug,
   Settings,
-  LogOut,
   Search,
+  FileText,
+  Boxes,
+  Compass,
+  BadgeDollarSign,
+  Workflow,
+  UserRound,
+  Wallet,
+  BarChart3,
+  Sparkles,
+  ShieldCheck,
+  BriefcaseBusiness,
+  Store,
+  GraduationCap,
+  MessagesSquare,
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { CommandPalette } from "./command-palette";
 
 const NAV = [
   { to: "/dashboard" as const, label: "Dashboard", icon: LayoutDashboard },
-  { to: "/blankspace" as const, label: "Blankspace", icon: Sparkles },
+  { to: "/blankspace" as const, label: "Brain", icon: BrainCircuit },
+  { to: "/knowledge" as const, label: "Knowledge", icon: LibraryBig },
+  { to: "/projects" as const, label: "Projects", icon: FolderKanban },
   { to: "/partners" as const, label: "Partners", icon: Users },
+  { to: "/ai" as const, label: "AI", icon: Bot },
+  { to: "/decisions" as const, label: "Decisions", icon: Gavel },
+  { to: "/documents" as const, label: "Documents", icon: FileText },
+  { to: "/products" as const, label: "Products", icon: Boxes },
+  { to: "/blueprints" as const, label: "Blueprints", icon: Compass },
+  { to: "/sales" as const, label: "Sales", icon: BadgeDollarSign },
+  { to: "/operations" as const, label: "Operations", icon: Workflow },
+  { to: "/people" as const, label: "People", icon: UserRound },
+  { to: "/finance" as const, label: "Finance", icon: Wallet },
+  { to: "/insights" as const, label: "Insights", icon: BarChart3 },
+  { to: "/automations" as const, label: "Automations", icon: Sparkles },
+  { to: "/governance" as const, label: "Governance", icon: ShieldCheck },
+  { to: "/clients" as const, label: "Clients", icon: BriefcaseBusiness },
+  { to: "/marketplace" as const, label: "Marketplace", icon: Store },
+  { to: "/academy" as const, label: "Academy", icon: GraduationCap },
+  { to: "/community" as const, label: "Community", icon: MessagesSquare },
   { to: "/integrations" as const, label: "Integrations", icon: Plug },
   { to: "/settings" as const, label: "Settings", icon: Settings },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const qc = useQueryClient();
-  const [email, setEmail] = useState<string>("");
   const [paletteOpen, setPaletteOpen] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? ""));
-  }, []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -43,13 +69,6 @@ export function AppShell({ children }: { children: ReactNode }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  async function signOut() {
-    await qc.cancelQueries();
-    qc.clear();
-    await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
-  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -99,13 +118,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <div>
             <div className="border-t border-sidebar-border pt-4">
-              <p className="truncate px-2 text-[11px] text-sidebar-foreground/50">{email}</p>
-              <button
-                onClick={signOut}
-                className="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-              >
-                <LogOut className="h-4 w-4" /> Sign out
-              </button>
+              <p className="truncate px-2 text-[11px] uppercase tracking-[0.2em] text-sidebar-foreground/50">
+                Workspace open
+              </p>
             </div>
           </div>
         </aside>

@@ -1,7 +1,6 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { ArrowRight, Lock } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,16 +16,10 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   const navigate = useNavigate();
-  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/dashboard", replace: true });
-      else setChecking(false);
-    });
+    navigate({ to: "/dashboard", replace: true });
   }, [navigate]);
-
-  if (checking) return <div className="min-h-screen bg-background" />;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -50,15 +43,12 @@ function Landing() {
               Organize never.
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                to="/auth"
+              <button
+                onClick={() => navigate({ to: "/dashboard", replace: true })}
                 className="group inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 hover:bg-primary/90"
               >
                 Enter HQ <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-              <p className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Lock className="h-3 w-3" /> Founders only. Google SSO required.
-              </p>
+              </button>
             </div>
           </div>
         </main>

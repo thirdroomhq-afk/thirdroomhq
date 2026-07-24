@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { format, isPast, isToday, parseISO } from "date-fns";
 import { ArrowRight, CheckCircle2, Circle, ExternalLink, Plus, Sparkles, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PRIORITY_MODULES } from "@/lib/prd-modules";
 import type { Tables } from "@/integrations/supabase/types";
 
 const PHASES = ["Blankspace", "Blueprint", "Build", "Bridge", "Beyond"] as const;
@@ -189,6 +190,29 @@ function Dashboard() {
                   <Sparkles className="h-3 w-3" /> Nothing captured yet.
                 </p>
               )}
+            </div>
+          </div>
+        </Card>
+
+        {/* Priority modules */}
+        <Card className="lg:col-span-3">
+          <div className="p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="font-display text-xl">Phase 1 operating system</h3>
+              <span className="text-xs text-muted-foreground">PRD priority modules</span>
+            </div>
+            <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+              {PRIORITY_MODULES.map((module) => (
+                <Link
+                  key={module.id}
+                  to={module.route as string}
+                  className="rounded-xl border border-border bg-card p-4 transition-colors hover:border-charcoal"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{module.subtitle}</p>
+                  <h4 className="mt-2 font-display text-lg">{module.title}</h4>
+                  <p className="mt-2 text-sm text-muted-foreground">{module.description}</p>
+                </Link>
+              ))}
             </div>
           </div>
         </Card>
