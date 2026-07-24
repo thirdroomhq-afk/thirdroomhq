@@ -14,13 +14,290 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      allowed_users: {
+        Row: {
+          created_at: string
+          email: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
+      capture_tags: {
+        Row: {
+          capture_id: string
+          tag_id: string
+        }
+        Insert: {
+          capture_id: string
+          tag_id: string
+        }
+        Update: {
+          capture_id?: string
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "capture_tags_capture_id_fkey"
+            columns: ["capture_id"]
+            isOneToOne: false
+            referencedRelation: "captures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "capture_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      captures: {
+        Row: {
+          ai_payload: Json | null
+          capture_type: string | null
+          created_at: string
+          file_urls: string[] | null
+          id: string
+          project_id: string | null
+          raw_content: string | null
+          summary: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_payload?: Json | null
+          capture_type?: string | null
+          created_at?: string
+          file_urls?: string[] | null
+          id?: string
+          project_id?: string | null
+          raw_content?: string | null
+          summary?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_payload?: Json | null
+          capture_type?: string | null
+          created_at?: string
+          file_urls?: string[] | null
+          id?: string
+          project_id?: string | null
+          raw_content?: string | null
+          summary?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "captures_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      decisions: {
+        Row: {
+          capture_id: string | null
+          created_at: string
+          decision_text: string
+          id: string
+          project_id: string | null
+        }
+        Insert: {
+          capture_id?: string | null
+          created_at?: string
+          decision_text: string
+          id?: string
+          project_id?: string | null
+        }
+        Update: {
+          capture_id?: string | null
+          created_at?: string
+          decision_text?: string
+          id?: string
+          project_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "decisions_capture_id_fkey"
+            columns: ["capture_id"]
+            isOneToOne: false
+            referencedRelation: "captures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "decisions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integrations: {
+        Row: {
+          created_at: string
+          credentials: Json | null
+          display_name: string
+          id: string
+          is_enabled: boolean
+          last_synced_at: string | null
+          launch_url: string | null
+          provider: string
+        }
+        Insert: {
+          created_at?: string
+          credentials?: Json | null
+          display_name: string
+          id?: string
+          is_enabled?: boolean
+          last_synced_at?: string | null
+          launch_url?: string | null
+          provider: string
+        }
+        Update: {
+          created_at?: string
+          credentials?: Json | null
+          display_name?: string
+          id?: string
+          is_enabled?: boolean
+          last_synced_at?: string | null
+          launch_url?: string | null
+          provider?: string
+        }
+        Relationships: []
+      }
+      partners: {
+        Row: {
+          active_modules: string[] | null
+          brand_name: string
+          contact_email: string | null
+          created_at: string
+          current_phase: string
+          health_score: number
+          id: string
+          notes: string | null
+        }
+        Insert: {
+          active_modules?: string[] | null
+          brand_name: string
+          contact_email?: string | null
+          created_at?: string
+          current_phase?: string
+          health_score?: number
+          id?: string
+          notes?: string | null
+        }
+        Update: {
+          active_modules?: string[] | null
+          brand_name?: string
+          contact_email?: string | null
+          created_at?: string
+          current_phase?: string
+          health_score?: number
+          id?: string
+          notes?: string | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      tags: {
+        Row: {
+          id: string
+          name: string
+        }
+        Insert: {
+          id?: string
+          name: string
+        }
+        Update: {
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          capture_id: string | null
+          created_at: string
+          due_date: string | null
+          id: string
+          priority: string
+          project_id: string | null
+          status: string
+          task_text: string
+        }
+        Insert: {
+          capture_id?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          priority?: string
+          project_id?: string | null
+          status?: string
+          task_text: string
+        }
+        Update: {
+          capture_id?: string | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          priority?: string
+          project_id?: string | null
+          status?: string
+          task_text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_capture_id_fkey"
+            columns: ["capture_id"]
+            isOneToOne: false
+            referencedRelation: "captures"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_founder: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
