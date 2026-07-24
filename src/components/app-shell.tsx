@@ -3,31 +3,20 @@ import { useEffect, useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
   BrainCircuit,
-  LibraryBig,
   FolderKanban,
   Bot,
-  Gavel,
   Users,
-  Plug,
   Settings,
   Search,
-  FileText,
-  Boxes,
-  Compass,
-  BadgeDollarSign,
-  Workflow,
-  UserRound,
-  Wallet,
-  BarChart3,
+  Plus,
   Sparkles,
-  ShieldCheck,
-  BriefcaseBusiness,
-  Store,
-  GraduationCap,
-  MessagesSquare,
+  CircleX,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CommandPalette } from "./command-palette";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Button } from "./ui/button";
+import { markWelcomeSeen, shouldShowWelcome } from "@/lib/onboarding";
 
 const NAV = [
   { to: "/home" as const, label: "Home", icon: LayoutDashboard },
@@ -41,6 +30,7 @@ const NAV = [
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -51,6 +41,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  useEffect(() => {
+    if (shouldShowWelcome()) {
+      setWelcomeOpen(true);
+    }
   }, []);
 
   return (
@@ -111,6 +107,56 @@ export function AppShell({ children }: { children: ReactNode }) {
         {/* Content */}
         <main className="min-w-0 flex-1">{children}</main>
       </div>
+
+      <Link
+        to="/blankspace"
+        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-medium text-primary-foreground shadow-lg transition-transform hover:scale-[1.02]"
+      >
+        <Plus className="h-4 w-4" /> Capture
+      </Link>
+
+      <Dialog open={welcomeOpen} onOpenChange={(open) => {
+        setWelcomeOpen(open);
+        if (!open) {
+          markWelcomeSeen();
+        }
+      }}>
+        <DialogContent className="max-w-xl rounded-3xl border-border bg-card p-0">
+          <div className="p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Welcome</p>
+                <DialogTitle className="mt-2 text-2xl font-display">A calmer place to work</DialogTitle>
+              </div>
+              <button
+                onClick={() => {
+                  setWelcomeOpen(false);
+                  markWelcomeSeen();
+                }}
+                className="rounded-full p-2 text-muted-foreground hover:bg-muted"
+                aria-label="Close welcome"
+              >
+                <CircleX className="h-4 w-4" />
+              </button>
+            </div>
+            <DialogDescription className="mt-3 text-sm leading-6 text-muted-foreground">
+              Start with Home to orient yourself, use Work to jump into projects, and open Brain whenever a thought wants to become something real.
+            </DialogDescription>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild className="gap-2">
+                <Link to="/home">
+                  <LayoutDashboard className="h-4 w-4" /> Open Home
+                </Link>
+              </Button>
+              <Button variant="outline" asChild className="gap-2">
+                <Link to="/work">
+                  <FolderKanban className="h-4 w-4" /> Open Work
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
     </div>
